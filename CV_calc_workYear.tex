@@ -1,0 +1,6 @@
+\newcounter{workStart}%
+\newcounter{presentDay}%
+\setmydatenumber{workStart}{2019}{07}{01}%
+\setmydatenumber{presentDay}{\the\year}{\the\month}{\the\day}%
+\FPsub\result{\thepresentDay}{\theworkStart}
+\FPdiv\workExperience{\result}{365.2425}
