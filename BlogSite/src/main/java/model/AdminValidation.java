@@ -1,10 +1,13 @@
 package model;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.Part;
 
 import com.mysql.cj.util.StringUtils;
+
+import dao.ArticlesDAO;
 
 public class AdminValidation {
 	private static String sanitizing(String str) {
@@ -16,12 +19,19 @@ public class AdminValidation {
 		return str;
 	}
 
-	public String blogTitle(String title, AdminData adminData) {
+	public String blogTitle(String title, AdminData adminData, String nickName) throws SQLException {
+		//Check duplication of blogTitle
+		ArticlesDAO articlesDAO = new ArticlesDAO();
+		Boolean titleDuplicate = articlesDAO.checkTitle(nickName, title);
+		
 		if (StringUtils.isEmptyOrWhitespaceOnly(title)) {
 			adminData.setErrMsg("Please input Blog Title*.");
 			adminData.setErrCheckTitle(false);
 		} else if (title.length() > 100) {
 			adminData.setErrMsg("Blog Title* length is less than 100 characters.");
+			adminData.setErrCheckTitle(false);
+		} else if (!titleDuplicate) {
+			adminData.setErrMsg("There is a same Blog Title. Please input another title.");
 			adminData.setErrCheckTitle(false);
 		} else {
 			adminData.setErrCheckTitle(true);
