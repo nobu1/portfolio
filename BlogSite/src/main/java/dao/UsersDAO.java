@@ -29,7 +29,6 @@ public class UsersDAO {
 			con.rollback();
 			checkFlag = false;
 		} catch (IOException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		} finally {
 			condis.close(con);
@@ -56,7 +55,6 @@ public class UsersDAO {
 			con.rollback();
 			checkFlag = false;
 		} catch (IOException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		} finally {
 			condis.close(con);
