@@ -2,7 +2,6 @@
 using namespace std;
 
 int main() {
-    bool Answer = false;
     int N;
     cin >> N;
 
@@ -14,23 +13,13 @@ int main() {
             for (int z = 0; z < N; z++) {
                 if (x != y && y != z && z != x) {
                     if (A[x] + A[y] + A[z] == 1000) {
-                        Answer = true;
-                        break;
+                        cout << "Yes" << endl;
+                        return 0;
                     }
                 }
             }
-            if (Answer) {
-                break;
-            }
-        }
-        if (Answer) {
-            break;
         }
     }
-
-    if (Answer) {
-        cout << "Yes" << endl;
-    } else {
-        cout << "No" << endl;
-    }
+    cout << "No" << endl;
+    return 0;
 }
