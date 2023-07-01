@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.Part;
@@ -53,13 +54,24 @@ public class AdminValidation {
 		return summary;
 	}
 
-	public void images(List<Part> imgFiles, AdminData adminData) {
+	public void images(List<Part> imgFiles, AdminData adminData, List<String> chapterLists) {
+		Iterator<Part> imgListIterator = imgFiles.iterator();
+		
 		if (imgFiles.get(0) == null || imgFiles.get(0).getSize() == 0) {
 			adminData.setErrMsg("Please upload jpg file at the Image file*.");
 			adminData.setErrCheckImg(false);
 			return;
 		}
 
+		for (int i = 0; i < chapterLists.size(); i++) {
+			imgListIterator.next();
+			if (!StringUtils.isEmptyOrWhitespaceOnly(chapterLists.get(i)) && !imgListIterator.hasNext()) {
+				adminData.setErrMsg("Please upload jpg file if you write the chapter.");
+				adminData.setErrCheckImg(false);
+				return;
+			}
+		}
+		
 		for (int i = 0; i < imgFiles.size(); i++) {
 			//Check upload files extension
 			String imageFileName = imgFiles.get(i).getSubmittedFileName();
