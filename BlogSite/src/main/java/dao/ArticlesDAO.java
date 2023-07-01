@@ -81,4 +81,24 @@ public class ArticlesDAO {
 		}
 		return checkFlag;
 	}
+	
+	public void deleteArticle(String nickName, String title) throws SQLException {
+		ConnectDisconnectDAO_Articles condis = new ConnectDisconnectDAO_Articles();
+		Connection con = null;
+		String sql = "UPDATE blog_articles.articles SET delete_flag = '1' WHERE article_user = '" 
+							+ nickName + "' " + "AND article_title = '" +  title + "'";
+		
+		try {
+			con = condis.getConnection();
+			PreparedStatement psmt = con.prepareStatement(sql);
+			psmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(e);
+			con.rollback();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			condis.close(con);
+		}
+	}
 }
