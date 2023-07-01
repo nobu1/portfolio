@@ -5,7 +5,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -35,12 +37,49 @@ public class AdminServlet extends HttpServlet {
 
 		String action = request.getParameter("action");
 
-		if (action.equals("logout")) {
+		if (action == null) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/admin.jsp");
+			dispatcher.forward(request, response);
+		} else if	(action.equals("logout")) {
 			session.invalidate();
 			response.sendRedirect("login.jsp");
-		} else if (action.equals("loadArticles")) {
-			//Load all articles of login user
+		} else if (action.equals("editdelete")) {
+			//Get nick name
+			String nickName =  request.getParameter("nickName");
 			
+			//Get article data
+			ArticlesDAO articlesDAO = new ArticlesDAO();
+			Map<String, String> articles = new HashMap<>();
+			try {
+				articles = articlesDAO.getArticleList(nickName, articles); 
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			//Dispatch articleEditDelete.jsp
+			session.setAttribute("nickName", nickName);
+			session.setAttribute("articles", articles);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/articleEditDelete.jsp");
+			dispatcher.forward(request, response);
+		} else if (action.equals("edit")) {
+			//Edit Selected Article
+			
+		} else if (action.equals("delete")) {
+			//Get parameters
+			String nickName =  request.getParameter("nickName");
+			String articleTitle = request.getParameter("articleTitle");
+			
+			//Update delete flag for the selected article
+			ArticlesDAO articlesDAO = new ArticlesDAO();
+			try {
+				articlesDAO.deleteArticle(nickName, articleTitle);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			//Dispatch admin.jsp
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/admin.jsp");
+			dispatcher.forward(request, response);
 		}
 	}
 
@@ -50,6 +89,9 @@ public class AdminServlet extends HttpServlet {
 		AdminData adminData = new AdminData();
 		AdminAppend adminAppend = new AdminAppend();
 
+		//Get nick name
+		String nickName = request.getParameter("nickname");
+		
 		//Get blog title
 		String blogTitile = request.getParameter("blogTitle");
 		//Get all image files
@@ -78,7 +120,11 @@ public class AdminServlet extends HttpServlet {
 		//Validation
 		AdminValidation adminValidation = new AdminValidation();
 		//For blog title
-		blogTitile = adminValidation.blogTitle(blogTitile, adminData);
+		try {
+			blogTitile = adminValidation.blogTitle(blogTitile, adminData, nickName);
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 		//For all image files
 		adminValidation.images(imgFileLists, adminData);
 		//For blog summary
@@ -97,12 +143,11 @@ public class AdminServlet extends HttpServlet {
 
 		if (validationCheckersLists.contains(false)) {
 			//Validation error
-			session.setAttribute("errorMsg", adminData.getErrMsg());
+			session.setAttribute("message", adminData.getErrMsg());
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/admin.jsp");
 			dispatcher.forward(request, response);
 		} else {
-			//Get nick name
-			String nickName = request.getParameter("nickname");
+			
 
 			//Set article items to ArticleData
 			ArticleData articleData = new ArticleData();
