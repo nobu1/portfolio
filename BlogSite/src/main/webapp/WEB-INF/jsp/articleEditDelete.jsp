@@ -18,7 +18,7 @@
 <link rel="stylesheet" href="css/blog.css" type="text/css">
 
 <!-- Javascript -->
-<script src="js/form_AdminModifyElements.js" defer></script>
+<script src="js/form_AdminEditeDelete.js" defer></script>
 
 <jsp:include page="/WEB-INF/jsp/title-meta.jsp"></jsp:include>
 </head>
@@ -29,7 +29,7 @@
 			<div class="col-md-11 text-end fw-bold">
 				<c:if test="${not empty nickName}">
 					<p name="nickname">
-						<c:out value="Login user: ${nickName}" />
+					Login user: <data class="nickName"><c:out value="${nickName}" /></data>
 					</p>
 				</c:if>
 			</div>
@@ -68,17 +68,18 @@
 								href="<%=request.getContextPath()%><c:out value="${article.getValue()}"/>">
 									<c:out value="${article.getKey()}" />
 							</a></td>
-							<td><a href="AdminServlet?action=edit&nickName=${nickName}"><button
-										type="submit" class="btn" data-bs-toggle="tooltip"
-										data-bs-placement="top" title="Edit" name="nickName">
-										<img src="img/logo_tbl_edit.svg" class="edit-btn"
-											alt="Edit Button">
-									</button></a></td>
-							<td><a href="AdminServlet?action=delete&nickName=${nickName}"><button type="submit" class="btn"
-									data-bs-toggle="tooltip" title="Delete" name="nickName">
+							<td><button class="btn edit_btn"
+									id="<c:out value="${article.getKey()}" />"
+									data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+									<img src="img/logo_tbl_edit.svg" class="edit-btn"
+										alt="Edit Button">
+								</button> </a></td>
+							<td><button class="btn delete_btn"
+									id="<c:out value="${article.getKey()}" />"
+									data-bs-toggle="tooltip" title="Delete">
 									<img src="img/logo_tbl_delete.svg" class="delete-btn"
 										alt="Delete Button">
-								</button></a></td>
+								</button></td>
 						</tr>
 					</c:forEach>
 				</tbody>
