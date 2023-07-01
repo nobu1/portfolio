@@ -1,7 +1,6 @@
 package model;
 
 import java.sql.SQLException;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.Part;
@@ -54,22 +53,15 @@ public class AdminValidation {
 		return summary;
 	}
 
-	public void images(List<Part> imgFiles, AdminData adminData, List<String> chapterLists) {
-		Iterator<Part> imgListIterator = imgFiles.iterator();
-		
+	public void images(List<Part> imgFiles, AdminData adminData, List<String> sectionLists) {
 		if (imgFiles.get(0) == null || imgFiles.get(0).getSize() == 0) {
 			adminData.setErrMsg("Please upload jpg file at the Image file*.");
 			adminData.setErrCheckImg(false);
 			return;
-		}
-
-		for (int i = 0; i < chapterLists.size(); i++) {
-			imgListIterator.next();
-			if (!StringUtils.isEmptyOrWhitespaceOnly(chapterLists.get(i)) && !imgListIterator.hasNext()) {
-				adminData.setErrMsg("Please upload jpg file if you write the chapter.");
-				adminData.setErrCheckImg(false);
-				return;
-			}
+		} else if (imgFiles.size() - 1 != sectionLists.size()) {
+			adminData.setErrMsg("Please upload jpg file if you write the section.");
+			adminData.setErrCheckImg(false);
+			return;
 		}
 		
 		for (int i = 0; i < imgFiles.size(); i++) {
@@ -91,25 +83,17 @@ public class AdminValidation {
 			List<String> descriptionLists, AdminData adminData) {
 		adminData.setErrCheckChapter(true);
 
+		if (chapterLists.size() == 0 && sectionLists.size() >= 1) {
+			adminData.setErrMsg("Please input Chapter if you input section.");
+			adminData.setErrCheckChapter(false);
+			return chapterLists;
+		}
+		
 		for (int i = 0; i < chapterLists.size(); i++) {
 			if (chapterLists.get(i).length() > 100) {
 				adminData.setErrMsg("Chapter length is less than 100 characters.");
 				adminData.setErrCheckChapter(false);
 				break;
-			} else if (StringUtils.isEmptyOrWhitespaceOnly(chapterLists.get(i))) {
-				if (imgFileLists.size() > chapterLists.size()) {
-					adminData.setErrMsg("Please input Chapter if you upload a image file.");
-					adminData.setErrCheckChapter(false);
-					break;
-				} else if (!StringUtils.isEmptyOrWhitespaceOnly(sectionLists.get(i))) {
-					adminData.setErrMsg("Please input Chapter if you input section.");
-					adminData.setErrCheckChapter(false);
-					break;
-				} else if (!StringUtils.isEmptyOrWhitespaceOnly(descriptionLists.get(i))) {
-					adminData.setErrMsg("Please input Chapter if you input description.");
-					adminData.setErrCheckChapter(false);
-					break;
-				}
 			} else {
 				chapterLists.set(i, sanitizing(chapterLists.get(i)));
 			}
@@ -117,9 +101,14 @@ public class AdminValidation {
 		return chapterLists;
 	}
 
-	public List<String> blogSections(List<String> sectionLists, AdminData adminData) {
+	public List<String> blogSections(List<String> sectionLists, AdminData adminData, List<Part> imgFileLists) {
 		adminData.setErrCheckSection(true);
-
+	
+		if (sectionLists.size() != imgFileLists.size() - 1) {
+			adminData.setErrMsg("Please input a image file if you input section.");
+			adminData.setErrCheckSection(false);
+			return sectionLists;
+		}
 		for (int i = 0; i < sectionLists.size(); i++) {
 			if (sectionLists.get(i).length() > 100) {
 				adminData.setErrMsg("Section length is less than 100 characters.");
