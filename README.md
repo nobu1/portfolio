@@ -1,6 +1,5 @@
 # Shinji's portfolio
 
-## This Github shows my portfolio.
 ### Github has four categories.
 1. Algorithms using C++
    Source files in this directory are included following topics.
