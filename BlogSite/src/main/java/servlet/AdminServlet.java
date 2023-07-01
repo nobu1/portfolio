@@ -126,7 +126,7 @@ public class AdminServlet extends HttpServlet {
 			e1.printStackTrace();
 		}
 		//For all image files
-		adminValidation.images(imgFileLists, adminData);
+		adminValidation.images(imgFileLists, adminData, chapterLists);
 		//For blog summary
 		blogSummary = adminValidation.blogSummary(blogSummary, descriptionLists, adminData);
 		//For all chapters
@@ -147,8 +147,6 @@ public class AdminServlet extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/admin.jsp");
 			dispatcher.forward(request, response);
 		} else {
-			
-
 			//Set article items to ArticleData
 			ArticleData articleData = new ArticleData();
 			articleData.setNickName(nickName);
