@@ -126,14 +126,14 @@ public class AdminServlet extends HttpServlet {
 			e1.printStackTrace();
 		}
 		//For all image files
-		adminValidation.images(imgFileLists, adminData, chapterLists);
+		adminValidation.images(imgFileLists, adminData, sectionLists);
 		//For blog summary
 		blogSummary = adminValidation.blogSummary(blogSummary, descriptionLists, adminData);
 		//For all chapters
 		chapterLists = adminValidation.blogChapters(chapterLists, sectionLists, imgFileLists, descriptionLists,
 				adminData);
 		//For all sections
-		sectionLists = adminValidation.blogSections(sectionLists, adminData);
+		sectionLists = adminValidation.blogSections(sectionLists, adminData, imgFileLists);
 		//For all descriptions
 		descriptionLists = adminValidation.blogDescription(descriptionLists, adminData);
 
