@@ -51,6 +51,9 @@
 		</div>
 		<hr>
 
+		<form class="m-4 EditForm" action="EditServlet"	method="post" name="edit" enctype="multipart/form-data">
+				
+		</form>
 		<div class="table-responsive m-5 Edit-Delete">
 			<table class="table table-hover text-nowrap">
 				<thead class="colum-color">
@@ -64,12 +67,11 @@
 				<tbody>
 					<c:forEach var="article" items="${articles}">
 						<tr>
-							<td><a
+							<td><a class="title"
 								href="<%=request.getContextPath()%><c:out value="${article.getValue()}"/>">
 									<c:out value="${article.getKey()}" />
 							</a></td>
-							<td><button class="btn edit_btn"
-									id="<c:out value="${article.getKey()}" />"
+							<td><button class="btn edit_btn" name="<%=request.getContextPath()%><c:out value="${article.getValue()}"/>"
 									data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
 									<img src="img/logo_tbl_edit.svg" class="edit-btn"
 										alt="Edit Button">
