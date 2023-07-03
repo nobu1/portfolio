@@ -1,6 +1,8 @@
 package servlet;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
@@ -8,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -40,35 +43,32 @@ public class AdminServlet extends HttpServlet {
 		if (action == null) {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/admin.jsp");
 			dispatcher.forward(request, response);
-		} else if	(action.equals("logout")) {
+		} else if (action.equals("logout")) {
 			session.invalidate();
 			response.sendRedirect("login.jsp");
 		} else if (action.equals("editdelete")) {
 			//Get nick name
-			String nickName =  request.getParameter("nickName");
-			
+			String nickName = request.getParameter("nickName");
+
 			//Get article data
 			ArticlesDAO articlesDAO = new ArticlesDAO();
 			Map<String, String> articles = new HashMap<>();
 			try {
-				articles = articlesDAO.getArticleList(nickName, articles); 
+				articles = articlesDAO.getArticleList(nickName, articles);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			
+
 			//Dispatch articleEditDelete.jsp
 			session.setAttribute("nickName", nickName);
 			session.setAttribute("articles", articles);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/articleEditDelete.jsp");
 			dispatcher.forward(request, response);
-		} else if (action.equals("edit")) {
-			//Edit Selected Article
-			
 		} else if (action.equals("delete")) {
 			//Get parameters
-			String nickName =  request.getParameter("nickName");
+			String nickName = request.getParameter("nickName");
 			String articleTitle = request.getParameter("articleTitle");
-			
+
 			//Update delete flag for the selected article
 			ArticlesDAO articlesDAO = new ArticlesDAO();
 			try {
@@ -76,7 +76,7 @@ public class AdminServlet extends HttpServlet {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			
+
 			//Dispatch admin.jsp
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/admin.jsp");
 			dispatcher.forward(request, response);
@@ -85,13 +85,23 @@ public class AdminServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		//Parameters
+		Properties properties = new Properties();
+		final String propertyPath = "D:/portfolio_blog/BlogPortfolio/Login.properties";
+		InputStream inputStream = new FileInputStream(propertyPath);
+		properties.load(inputStream);
+		final int SESSION_TIME = Integer.parseInt(properties.getProperty("SESSION_TIME"));
+
+		//Set session time(Max 1 day)
 		HttpSession session = request.getSession();
+		session.setMaxInactiveInterval(SESSION_TIME);
+		
 		AdminData adminData = new AdminData();
 		AdminAppend adminAppend = new AdminAppend();
 
 		//Get nick name
 		String nickName = request.getParameter("nickname");
-		
+
 		//Get blog title
 		String blogTitile = request.getParameter("blogTitle");
 		//Get all image files
@@ -126,14 +136,14 @@ public class AdminServlet extends HttpServlet {
 			e1.printStackTrace();
 		}
 		//For all image files
-		adminValidation.images(imgFileLists, adminData, sectionLists);
+		adminValidation.images(imgFileLists, adminData, chapterLists);
 		//For blog summary
 		blogSummary = adminValidation.blogSummary(blogSummary, descriptionLists, adminData);
 		//For all chapters
 		chapterLists = adminValidation.blogChapters(chapterLists, sectionLists, imgFileLists, descriptionLists,
 				adminData);
 		//For all sections
-		sectionLists = adminValidation.blogSections(sectionLists, adminData, imgFileLists);
+		sectionLists = adminValidation.blogSections(sectionLists, adminData);
 		//For all descriptions
 		descriptionLists = adminValidation.blogDescription(descriptionLists, adminData);
 
