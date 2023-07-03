@@ -8,6 +8,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Iterator;
+
+import javax.servlet.http.Part;
 
 import com.mysql.cj.util.StringUtils;
 
@@ -28,7 +31,8 @@ public class CreateArticle {
 
 			if (checkBeforeWritefile(file)) {
 				BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-
+				Iterator<Part> imgListIterator = articleData.getImageFiles().iterator();
+				
 				bw.write("<jsp:include page=\"/WEB-INF/jsp/articleHeader.jsp\"></jsp:include>\n");
 				bw.write("	<main>\n"
 						+ "		<div class=\"container Article\">\n"
@@ -41,7 +45,7 @@ public class CreateArticle {
 						+ "							<img src=\"<%=request.getContextPath()%>/img/"
 						+ articleData.getNickName() + "/"
 						+ articleData.getImageFiles().get(0).getSubmittedFileName() + "\" "
-						+ "class=\"m-4 img-fluid rounded mx-auto d-block\" style=\"height: 350px;\" alt=\"mainImage\">\n"
+						+ "class=\"m-4 img-fluid rounded mx-auto d-block mainImg\" style=\"height: 350px;\" alt=\"mainImage\">\n"
 						+ "						</header>\n"
 						+ "					</div>\n"
 						+ "				</div>\n");
@@ -49,29 +53,32 @@ public class CreateArticle {
 					bw.write("					<div class=\"row\">\n"
 							+ "						<div class=\"col-md-12\">\n"
 							+ "							<section>\n"
-							+ "								<h5 class=\"mt-2\">" + articleData.getBlogSummary() + "</h5>\n"
+							+ "								<h5 class=\"mt-2 summary\">" + articleData.getBlogSummary()
+							+ "</h5>\n"
 							+ "							</section>\n"
 							+ "						</div>\n"
 							+ "					</div>\n");
 				}
 				//Repeat part
-				if (articleData.getImageFiles().size() > 1) {
-					for (int i = 0; i < articleData.getChapterLists().size(); i++) {
-						bw.write("				<div class=\"row\">\n"
-								+ "					<div class=\"col-md-12\">\n"
-								+ "						<section>\n"
-								+ "							<h2>" + articleData.getChapterLists().get(i) + "</h2>\n"
-								+ "							<h3>" + articleData.getSectionLists().get(i) + "</h3>\n"
-								+ "							<img src=\"<%=request.getContextPath()%>/img/"
-								+ articleData.getNickName() + "/"
-								+ articleData.getImageFiles().get(i + 1).getSubmittedFileName() + "\" "
-								+ "class=\"m-2 img-fluid rounded mx-auto d-block\" style=\"height: 350px;\" alt=\"chapterImage\""
-								+ i + ">\n"
-								+ "							<h5 class=\"mt-2\">" + articleData.getDescriptionLists().get(i) + "</h5>\n"
-								+ "						</section>\n"
-								+ "					</div>\n"
-								+ "				</div>\n");
+				for (int i = 0; i < articleData.getSectionLists().size(); i++) {
+					bw.write("				<div class=\"row\">\n"
+							+ "					<div class=\"mt-2 col-md-12\">\n"
+							+ "						<section class=\"mainContents\">\n");
+					if (!StringUtils.isEmptyOrWhitespaceOnly(articleData.getChapterLists().get(i))) {
+						bw.write( "						<h2 class=\"chapter\">" + articleData.getChapterLists().get(i) + "</h2>\n");
 					}
+					bw.write("							<h3 class=\"section\">" + articleData.getSectionLists().get(i) + "</h3>\n");
+					imgListIterator.next();
+					if (imgListIterator.hasNext()) {
+						bw.write(" 						<img src=\"<%=request.getContextPath()%>/img/" 
+							+ articleData.getNickName() + "/" + articleData.getImageFiles().get(i + 1).getSubmittedFileName() + "\" "
+							+ "class=\"m-2 img-fluid rounded mx-auto d-block imgList\" style=\"height: 350px;\" alt=\"chapterImage\""
+							+ i + ">\n");
+					} 
+					bw.write("							<h5 class=\"mt-2 description\">" + articleData.getDescriptionLists().get(i) + "</h5>\n"
+							+ "						</section>\n"
+							+ "					</div>\n"
+							+ "				</div>\n");
 				}
 				bw.write("			</article>\n"
 						+ "		</div>\n"
