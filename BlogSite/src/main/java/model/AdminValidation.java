@@ -53,13 +53,15 @@ public class AdminValidation {
 		return summary;
 	}
 
-	public void images(List<Part> imgFiles, AdminData adminData, List<String> sectionLists) {
+	public void images(List<Part> imgFiles, AdminData adminData, List<String> chapterLists) {
+		System.out.println(imgFiles.size());
+		System.out.println(chapterLists.size());
 		if (imgFiles.get(0) == null || imgFiles.get(0).getSize() == 0) {
 			adminData.setErrMsg("Please upload jpg file at the Image file*.");
 			adminData.setErrCheckImg(false);
 			return;
-		} else if (imgFiles.size() - 1 != sectionLists.size()) {
-			adminData.setErrMsg("Please upload jpg file if you write the section.");
+		} else if (imgFiles.size() > 1 &&  StringUtils.isEmptyOrWhitespaceOnly(chapterLists.get(0))) {
+			adminData.setErrMsg("Please input chapter if you upload a image file.");
 			adminData.setErrCheckImg(false);
 			return;
 		}
@@ -83,7 +85,7 @@ public class AdminValidation {
 			List<String> descriptionLists, AdminData adminData) {
 		adminData.setErrCheckChapter(true);
 
-		if (chapterLists.size() == 0 && sectionLists.size() >= 1) {
+		if (StringUtils.isEmptyOrWhitespaceOnly(chapterLists.get(0)) && sectionLists.size() >= 1) {
 			adminData.setErrMsg("Please input Chapter if you input section.");
 			adminData.setErrCheckChapter(false);
 			return chapterLists;
@@ -101,14 +103,9 @@ public class AdminValidation {
 		return chapterLists;
 	}
 
-	public List<String> blogSections(List<String> sectionLists, AdminData adminData, List<Part> imgFileLists) {
+	public List<String> blogSections(List<String> sectionLists, AdminData adminData) {
 		adminData.setErrCheckSection(true);
 	
-		if (sectionLists.size() != imgFileLists.size() - 1) {
-			adminData.setErrMsg("Please input a image file if you input section.");
-			adminData.setErrCheckSection(false);
-			return sectionLists;
-		}
 		for (int i = 0; i < sectionLists.size(); i++) {
 			if (sectionLists.get(i).length() > 100) {
 				adminData.setErrMsg("Section length is less than 100 characters.");
