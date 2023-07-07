@@ -29,7 +29,8 @@
 			<div class="col-md-11 text-end fw-bold">
 				<c:if test="${not empty nickName}">
 					<p name="nickname">
-					Login user: <data class="nickName"><c:out value="${nickName}" /></data>
+						Login user:
+						<data class="nickName"> <c:out value="${nickName}" /></data>
 					</p>
 				</c:if>
 			</div>
@@ -51,9 +52,6 @@
 		</div>
 		<hr>
 
-		<form class="m-4 EditForm" action="EditServlet"	method="post" name="edit" enctype="multipart/form-data">
-				
-		</form>
 		<div class="table-responsive m-5 Edit-Delete">
 			<table class="table table-hover text-nowrap">
 				<thead class="colum-color">
@@ -71,11 +69,17 @@
 								href="<%=request.getContextPath()%><c:out value="${article.getValue()}"/>">
 									<c:out value="${article.getKey()}" />
 							</a></td>
-							<td><button class="btn edit_btn" name="<%=request.getContextPath()%><c:out value="${article.getValue()}"/>"
-									data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+							<td>
+								<button class="btn edit_btn" data-bs-toggle="tooltip"
+									data-bs-placement="top" title="Edit"
+									name="<%=request.getContextPath()%><c:out value="${article.getValue()}"/>">
 									<img src="img/logo_tbl_edit.svg" class="edit-btn"
 										alt="Edit Button">
-								</button> </a></td>
+								</button>
+								<p hidden class="EditServlet"
+									id="<%=request.getScheme()%>://<%=request.getServerName()%>:<%=request.getServerPort()%><%=request.getContextPath()%>/EditServlet"></p>
+
+							</td>
 							<td><button class="btn delete_btn"
 									id="<c:out value="${article.getKey()}" />"
 									data-bs-toggle="tooltip" title="Delete">
