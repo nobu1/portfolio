@@ -1,6 +1,6 @@
 # Shinji's portfolio
 
-### Github has four categories.
+### My Github has four categories.
 1. My CV using LaTex  
    The following link is my CV of PDF format.  
   -[Shinji Nobuhara CV](https://github.com/nobu1/portfolio/blob/main/CurriculumVitae/CV_main_ShinjiNobuhara.pdf)
