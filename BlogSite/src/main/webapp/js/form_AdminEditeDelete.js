@@ -33,7 +33,6 @@ document.querySelectorAll('.edit_btn').forEach((s) => {
 	s.addEventListener('click', () => {
 		count += 1;
 		if (count === 1) {
-			const article_title = document.querySelector('a.title').innerHTML;
 			let request = makeHttpObject();
 			request.open("GET", s.name, true);
 			request.responseType ="document";
@@ -41,15 +40,15 @@ document.querySelectorAll('.edit_btn').forEach((s) => {
 			request.onreadystatechange = function() {
   				if (request.readyState == 4 && request.status == 200) {
   					const mainContents = request.response.querySelectorAll('.container Article section.mainContents');
-  					
+ 
   					let repeatedContents = '';
-  					for (let i = 0; i < mainContents.length - 1; i++) {  						
+  					for (let i = 0; i < (mainContents.length - 1); i++) {  						
   						repeatedContents += 
   							'<div class="row my-2" id="Chapter' + i + '">\n' +
 								'<label class="col-md-2 col-form-label text-start" for="F_Chapter' + i + '">Chapter</label>\n' +
 								'<div class="col-md-7">\n' +
 									//Chapter
-									'<input type="text" class="form-control" id="F_Chapter' + i + '"	name="chapter' + i +
+									'<input type="text" class="form-control chapterData" id="F_Chapter' + i + '" name="chapter' + i +
 									'" value="';
 									if (mainContents[i].querySelector('h2.chapter')) {
 										repeatedContents += mainContents[i].querySelector('h2.chapter').innerHTML + '" maxlength="100">\n';
@@ -62,7 +61,7 @@ document.querySelectorAll('.edit_btn').forEach((s) => {
 								'<label class="col-md-2 col-form-label text-start" for="F_Section' + i + '">Section</label>\n' +
 								'<div class="col-md-7">\n' +
 									//Section 
-									'<input type="text" class="form-control" id="F_Section' + i + '"	name="section' + i +
+									'<input type="text" class="form-control sectionData" id="F_Section' + i + '" name="section' + i +
 									'" value="';
 									if (mainContents[i].querySelector('h3.section')) {
 										repeatedContents +=  mainContents[i].querySelector('h3.section').innerHTML + '" maxlength="100">\n';
@@ -75,7 +74,7 @@ document.querySelectorAll('.edit_btn').forEach((s) => {
 								'<label class="col-md-2 col-form-label text-start" for="F_ImgPath' + i + '">Image file</label>\n' +
 								'<div class="col-md-7">\n' +
 									//Image File
-									'<input type="file" class="form-control" id="F_ImgPath' + i + '"	accept=".jpg" name="image' + i +
+									'<input type="file" class="form-control imgData" id="F_ImgPath' + i + '" accept=".jpg" name="image' + i +
 									'" value="';
 									if (mainContents[i].querySelector('img').getAttribute('src')) {
 										repeatedContents += mainContents[i].querySelector('img').getAttribute('src') +  '">\n';
@@ -89,7 +88,7 @@ document.querySelectorAll('.edit_btn').forEach((s) => {
 								'<label class="col-md-2 col-form-label text-start" for="F_Description' + i + '">Description</label>\n' +
 								'<div class="col-md-7">\n' +
 									//Description
-									'<textarea rows="6" class="form-control" id="F_Description' + i + '" name="description' + i + '">';
+									'<textarea rows="6" class="form-control descriptionData" id="F_Description' + i + '" name="description' + i + '">';
 									if (mainContents[i].querySelector('h5.description')) {
 										repeatedContents += mainContents[i].querySelector('h5.description').innerHTML + '</textarea>\n';
 									} else {
@@ -104,21 +103,22 @@ document.querySelectorAll('.edit_btn').forEach((s) => {
   						blogSummary = request.response.querySelector('.container Article h5.summary').innerHTML;
   					} 
   								
-  				 	formElem.insertAdjacentHTML('afterbegin',  				 	
+  				 	tableElem.insertAdjacentHTML('afterbegin',  				 	
+					'<form id="EditForm">' +
 					'<div class="ConfirmEditArticle">\n' +
 						'<div class="row my-2">\n' +
 							'<label class="col-md-2 col-form-label text-start" for="F_Title">Blog Title</label>\n' +
 							'<div class="col-md-7">\n' +
 								//Blog Title
 								'<input type="text" class="form-control" id="F_Title" name="blogTitle" maxlength="100" ' + 
-								'value="' + request.response.querySelector('.container Article h1').innerHTML + '">\n' +
+								'value="' + request.response.querySelector('.container Article h1').innerHTML + '" required>\n' +
 							'</div>\n' +
 						'</div>\n' +
 						'<div class="row my-2">\n' +
 							'<label class="col-md-2 col-form-label text-start" for="F_ImgPath">Image file</label>\n' +
 							'<div class="col-md-7">\n' +
 								//Main Image
-								'<input type="file" class="form-control" id="F_ImgPath"	accept=".jpg" name="imageMain"' +
+								'<input type="file" class="form-control mainImg" id="F_ImgPath"	accept=".jpg" name="imageMain"' +
 								'value="' + request.response.querySelector('img.mainImg').getAttribute('src') + '">\n' +
 								'<div id="mainImgHelp" class="form-text">If you change the image, please input a file.</div>\n' +
 							'</div>\n' +
@@ -127,28 +127,24 @@ document.querySelectorAll('.edit_btn').forEach((s) => {
 							'<label class="col-md-2 col-form-label text-start" for="F_SummaryText">Blog summary</label>\n' +
 							'<div class="col-md-7">\n' +
 								//Blog Summary
-								'<textarea rows="3" class="form-control" id="F_SummaryText" name="summary">' +
+								'<textarea rows="3" class="form-control summary" id="F_SummaryText" name="summary">' +
 								blogSummary + '</textarea>\n' +
 							'</div>\n' +
 						'</div>\n' +
 						// Repeated Contents
 						repeatedContents +
-						'<div class="row">\n' +
+						'<div class="row my-4">\n' +
 							'<div class="col-md-9 text-end edit_article">\n' +
-								//Edit parameters(nickName, title)
-								'<button type="submit" class="btn btn-primary edit_article">Edit</button>\n' +
+								'<button type="button" class="btn btn-primary edit_article">Edit</button>\n' +
+								'<button type="button" class="btn btn-light edit_cancel">Cancel</button>\n' +
 							'</div>\n' +
 						'</div>\n' +
-					'</div>');
+					'</div>\n' +
+					'</form>');
 					
-					formElem.insertAdjacentHTML('afterend',
+					/*Temporally Suspended
+					tableElem.insertAdjacentHTML('afterbegin',
 					'<div class="ConfirmEditArticle2">\n' +
-						'<div class="row">\n' +
-							'<div class="col-md-9 text-end edit_article">\n' +
-								'<button type="button" class="btn btn-light edit_cancel">Cancel</button>\n' +
-							'</div>\n' +									
-						'</div>\n' +
-						/* Temporally Suspended
 						'<div class="row mt-2">\n' +
 							'<div class="col-md-6 text-center FormModify1">\n' +
 								'<input type="image" src="img/logo_form_plus.svg" alt="Insert" class="Insert"' +
@@ -159,17 +155,126 @@ document.querySelectorAll('.edit_btn').forEach((s) => {
 								' data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Items">\n' +
 							'</div>\n' +
 						'</div>\n' +
-						*/
 					'</div>');								
-					
-					/* Temporally Suspended
+
 					document.querySelector('div.FormModify1 input.Insert').addEventListener('click', appendElement(mainContents.length - 1));
 					document.querySelector('div.FormModify2 input.Delete').addEventListener('click', deleteElement(mainContents.length - 1));
 					*/
+					
+					document.querySelector('button.edit_article').addEventListener('click', () => {
+						//Get blog title
+						let title = "";
+						if (document.forms.EditForm.elements[0].value?.trim()) {
+							title = document.forms.EditForm.elements[0].value;
+						} else {
+							title = document.getElementById('F_Title').getAttribute('value');
+						}
 						
+						//Get main image
+						let imgLists = new Array();
+						if (document.forms.EditForm.elements[1].value?.trim()) {
+							imgLists.push(document.forms.EditForm.elements[1].value);
+						} else {
+							imgLists.push(document.getElementById('F_ImgPath').getAttribute('value'));
+						}				
+						
+						//Get blog summary
+						let summary = "";
+						if (document.forms.EditForm.elements[2].value?.trim()) {
+							summary = document.forms.EditForm.elements[2].value;
+						} else {
+							summary = "";
+						}
+
+						let chapterLists = new Array();
+						let sectionLists = new Array();
+						let descriptionLists = new Array();
+
+						if ((document.forms.EditForm.elements.length -2) > 3) {
+							//Get first chapter
+							if (document.forms.EditForm.elements[3].value?.trim()) {
+								chapterLists.push(document.forms.EditForm.elements[3].value);
+							} else {
+								chapterLists.push(document.getElementById('F_Chapter0').getAttribute('value'));
+							}
+						}
+						
+						if ((document.forms.EditForm.elements.length - 2) > 4) {
+							//Get first section
+							if (document.forms.EditForm.elements[4].value?.trim()) {
+								sectionLists.push(document.forms.EditForm.elements[4].value);
+							} else {
+								sectionLists.push("");
+							}
+						}
+						
+						if ((document.forms.EditForm.elements.length - 2) > 5) {
+							//Get second image
+							if (document.forms.EditForm.elements[5].value?.trim()) {
+								imgLists.push(document.forms.EditForm.elements[5].value?.trim());
+							} else {
+								imgLists.push(document.getElementById('F_ImgPath0').getAttribute('value'));
+							}
+						}
+						
+						if ((document.forms.EditForm.elements.length -2) > 6) {
+							//Get first description
+							if (document.forms.EditForm.elements[6].value?.trim()) {
+								descriptionLists.push(document.forms.EditForm.elements[6].value);
+							} else {
+								descriptionLists.push("");
+							}
+						}
+
+						//Get repeated items
+						if ((document.forms.EditForm.elements.length -2) > 7) {
+							for (let i = 0; i < (mainContents.length - 2); i++) {
+								//Chapters
+								if (document.forms.EditForm.elements[(i + 7)].value?.trim()) {
+									chapterLists.push(document.forms.EditForm.elements[(i + 7)].value);
+								} else {
+									chapterLists.push("");
+								}
+
+								//Sections
+								if (document.forms.EditForm.elements[(i + 8)].value?.trim()) {
+									sectionLists.push(document.forms.EditForm.elements[(i + 8)].value);
+								} else {
+									sectionLists.push("");
+								}
+
+								//Images
+								let imgParam = 'F_ImgPath' + (i + 1);
+								if (document.forms.EditForm.elements[(i + 9)].value?.trim()) {
+									imgLists.push(document.forms.EditForm.elements[(i + 9)].value);
+								} else if (document.getElementById(imgParam).getAttribute('value')?.trim()) {
+									imgLists.push(document.getElementById(imgParam).getAttribute('value'));
+								} else {
+									imgLists.push("");
+								}
+							
+								//Descriptions
+								if (document.forms.EditForm.elements[(i + 10)].value?.trim()) {
+									descriptionLists.push(document.forms.EditForm.elements[(i + 10)].value);
+								} else {
+									descriptionLists.push("");
+								}
+							}
+						}				
+						
+						//Send article data to EditServlet.java
+						let sendData = new XMLHttpRequest();
+						sendData.open('POST', document.querySelector('p.EditServlet').getAttribute('id'));
+						sendData.setRequestHeader('content-type', 'application/x-www-form-urlencoded');									
+						sendData.send('blogTitle='+title+'&imgLists='+imgLists+'&blogSummary='+summary+
+									  '&chapterLists='+chapterLists+'&sectionLists='+sectionLists+
+									  '&descriptionLists='+descriptionLists);
+						document.getElementById('EditForm').remove();
+						count = 0;
+					});
+					
 					document.querySelector('button.edit_cancel').addEventListener('click', () => {
-						document.querySelector('.ConfirmEditArticle').remove();
-						document.querySelector('.ConfirmEditArticle2').remove();
+						document.getElementById('EditForm').remove();
 						count = 0;
 					});			
 				}
