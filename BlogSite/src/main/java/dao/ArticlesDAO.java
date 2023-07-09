@@ -58,7 +58,7 @@ public class ArticlesDAO {
 	}
 	
 	public Boolean checkTitle(String nickName, String title) throws SQLException {
-		Boolean checkFlag = true;
+		Boolean checkFlag = false;
 		ConnectDisconnectDAO_Articles condis = new ConnectDisconnectDAO_Articles();
 		Connection con = null;
 		String sql = "SELECT article_title FROM blog_articles.articles WHERE article_user = '"
@@ -69,7 +69,7 @@ public class ArticlesDAO {
 			PreparedStatement psmt = con.prepareStatement(sql);
 			ResultSet rs = psmt.executeQuery();
 			if (rs.next()) {
-				checkFlag = false;
+				checkFlag = true;
 			}
 		} catch (SQLException e) {
 			System.out.println(e);
@@ -87,6 +87,26 @@ public class ArticlesDAO {
 		Connection con = null;
 		String sql = "UPDATE blog_articles.articles SET delete_flag = '1' WHERE article_user = '" 
 							+ nickName + "' " + "AND article_title = '" +  title + "'";
+		
+		try {
+			con = condis.getConnection();
+			PreparedStatement psmt = con.prepareStatement(sql);
+			psmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(e);
+			con.rollback();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			condis.close(con);
+		}
+	}
+	
+	public void updateEditArticleTitle(String nickName, String title, String articleURL) throws SQLException {
+		ConnectDisconnectDAO_Articles condis = new ConnectDisconnectDAO_Articles();
+		Connection con = null;
+		String sql = "UPDATE blog_articles.articles SET article_title ='" + title + "' WHERE article_user = '" 
+				+ nickName + "' " + "AND file_path = '" + articleURL +"'";
 		
 		try {
 			con = condis.getConnection();
