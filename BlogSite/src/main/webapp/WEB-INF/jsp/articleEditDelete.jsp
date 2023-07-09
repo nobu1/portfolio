@@ -52,6 +52,19 @@
 		</div>
 		<hr>
 
+		<div class="row">
+			<div class="col-md-12 text-center fw-bold">
+				<c:if test="${not empty messageEdit}">
+					<p>
+						<c:out value="${messageEdit}" />
+					</p>
+				</c:if>
+			</div>
+		</div>
+		<div class="container CreateForm">
+			<form class="m-4" id="Create Form" action="AdminServlet"
+				method="post" enctype="multipart/form-data"></form>
+		</div>
 		<div class="table-responsive m-5 Edit-Delete">
 			<table class="table table-hover text-nowrap">
 				<thead class="colum-color">
