@@ -19,7 +19,7 @@ public class AdminValidation {
 		return str;
 	}
 
-	public String blogTitle(String title, AdminData adminData, String nickName) throws SQLException {
+	public String blogTitle(String title, AdminData adminData, String nickName, String editProcess) throws SQLException {
 		//Check duplication of blogTitle
 		ArticlesDAO articlesDAO = new ArticlesDAO();
 		Boolean titleDuplicate = articlesDAO.checkTitle(nickName, title);
@@ -30,32 +30,22 @@ public class AdminValidation {
 		} else if (title.length() > 100) {
 			adminData.setErrMsg("Blog Title* length is less than 100 characters.");
 			adminData.setErrCheckTitle(false);
-		} else if (!titleDuplicate) {
-			adminData.setErrMsg("There is a same Blog Title. Please input another title.");
-			adminData.setErrCheckTitle(false);
+		} else if (titleDuplicate) {
+			if (StringUtils.isEmptyOrWhitespaceOnly(editProcess)) {
+				adminData.setErrMsg("There is a same Blog Title. Please input another title.");
+				adminData.setErrCheckTitle(false);
+			} else {
+				adminData.setErrCheckTitle(true);
+				title = sanitizing(title);
+			}
 		} else {
 			adminData.setErrCheckTitle(true);
 			title = sanitizing(title);
 		}
 		return title;
 	}
-
-	public String blogSummary(String summary, List<String> descriptionLists, AdminData adminData) {
-		if (StringUtils.isEmptyOrWhitespaceOnly(summary)
-				&& !StringUtils.isEmptyOrWhitespaceOnly(descriptionLists.get(0))) {
-			if (descriptionLists.get(0).length() > 140) {
-				summary = descriptionLists.get(0).substring(0, 141);
-			} else {
-				summary = descriptionLists.get(0);
-			}
-		}
-		summary = sanitizing(summary);
-		return summary;
-	}
-
+	
 	public void images(List<Part> imgFiles, AdminData adminData, List<String> chapterLists) {
-		System.out.println(imgFiles.size());
-		System.out.println(chapterLists.size());
 		if (imgFiles.get(0) == null || imgFiles.get(0).getSize() == 0) {
 			adminData.setErrMsg("Please upload jpg file at the Image file*.");
 			adminData.setErrCheckImg(false);
@@ -80,9 +70,44 @@ public class AdminValidation {
 			}
 		}
 	}
+	
+	public void imagesEdit(List<String> imgFiles, AdminData adminData, List<String> chapterLists) {
+		if (imgFiles.size() > 1 &&  StringUtils.isEmptyOrWhitespaceOnly(chapterLists.get(0))) {
+			adminData.setErrMsg("Please input chapter if you upload a image file.");
+			adminData.setErrCheckImg(false);
+			return;
+		}
+		
+		for (int i = 0; i < imgFiles.size(); i++) {
+			//Check upload files extension
+			String[] imageFileArray = imgFiles.get(i).split("/");
+			String imageFileName = imageFileArray[imageFileArray.length - 1];
+			String imgFileExtension = imageFileName.substring(imageFileName.lastIndexOf("."));
 
-	public List<String> blogChapters(List<String> chapterLists, List<String> sectionLists, List<Part> imgFileLists,
-			List<String> descriptionLists, AdminData adminData) {
+			if (imgFileExtension.equals(".jpg")) {
+				adminData.setErrCheckImg(true);
+			} else {
+				adminData.setErrMsg("Please upload jpg file.");
+				adminData.setErrCheckImg(false);
+				break;
+			}
+		}
+	}
+	
+	public String blogSummary(String summary, List<String> descriptionLists, AdminData adminData) {
+		if (StringUtils.isEmptyOrWhitespaceOnly(summary)
+				&& !StringUtils.isEmptyOrWhitespaceOnly(descriptionLists.get(0))) {
+			if (descriptionLists.get(0).length() > 140) {
+				summary = descriptionLists.get(0).substring(0, 141);
+			} else {
+				summary = descriptionLists.get(0);
+			}
+		}
+		summary = sanitizing(summary);
+		return summary;
+	}
+
+	public List<String> blogChapters(List<String> chapterLists, List<String> sectionLists, AdminData adminData) {
 		adminData.setErrCheckChapter(true);
 
 		if (StringUtils.isEmptyOrWhitespaceOnly(chapterLists.get(0)) && sectionLists.size() >= 1) {
