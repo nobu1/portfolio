@@ -18,7 +18,7 @@
 						href="https://github.com/nobu1/portfolio"> <img
 							src="img/logo_nav_github.svg" alt="github logo">GitHub
 					</a></li>
-					<li class="nav-item"><a class="nav-link" href="articles/article.html">Articles</a>
+					<li class="nav-item"><a class="nav-link" href="ArticleServlet?action=article">Articles</a>
 				</ul>
 			</div>
 			<!-- /collapse navbar-collapse -->
