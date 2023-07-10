@@ -18,8 +18,8 @@
    - AWS Solutions Architect Professional
    - AWS Security
    - Certified Ethical Hacker
-   - LPIC 304
    - Oracle Professional Java SE11 Developer
+   - LPIC 304
 
 ### Key words
 - Security Engineer
