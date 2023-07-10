@@ -57,6 +57,29 @@ public class ArticlesDAO {
 		return articles;
 	}
 	
+	public Map<String, String> getAllArticleList(Map<String, String> articles) throws SQLException {
+		ConnectDisconnectDAO_Articles condis = new ConnectDisconnectDAO_Articles();
+		Connection con = null;
+		String sql = "SELECT article_title, file_path FROM blog_articles.articles WHERE delete_flag = 'false'";
+		
+		try {
+			con = condis.getConnection();
+			PreparedStatement psmt = con.prepareStatement(sql);
+			ResultSet rs = psmt.executeQuery();
+			while (rs.next()) {
+				articles.put(rs.getString("article_title"), rs.getString("file_path")) ;
+			}
+		} catch (SQLException e) {
+			System.out.println(e);
+			con.rollback();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			condis.close(con);
+		}
+		return articles;
+	}
+	
 	public Boolean checkTitle(String nickName, String title) throws SQLException {
 		Boolean checkFlag = false;
 		ConnectDisconnectDAO_Articles condis = new ConnectDisconnectDAO_Articles();
