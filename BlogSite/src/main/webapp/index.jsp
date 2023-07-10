@@ -44,7 +44,10 @@
 						<div class="card-deck back my-2">
 							<div class="card m-4">
 								<div class="card-header text-center">
-									<h3 class="card-title mt-2"><img alt="Frontend Icon" src="img/logo_cardtitle_frontend.svg" width="20" height="20" class="mx-2 mb-2">Front end</h3>
+									<h3 class="card-title mt-2">
+										<img alt="Frontend Icon" src="img/logo_cardtitle_frontend.svg"
+											width="20" height="20" class="mx-2 mb-2">Front end
+									</h3>
 								</div>
 								<div class="card-body">
 									<h4 class="card-text">
@@ -59,7 +62,10 @@
 							</div>
 							<div class="card m-4">
 								<div class="card-header text-center">
-									<h3 class="card-title mt-2"><img alt="Backend Icon" src="img/logo_cardtitle_backend.svg" width="22" height="22" class="mx-2 mb-2">Back end</h3>
+									<h3 class="card-title mt-2">
+										<img alt="Backend Icon" src="img/logo_cardtitle_backend.svg"
+											width="22" height="22" class="mx-2 mb-2">Back end
+									</h3>
 								</div>
 								<div class="card-body">
 									<h4 class="card-text">
@@ -81,8 +87,8 @@
 							<dd>It is a blog site using Java. The site does not use a
 								framework such as WordPress, Spring and so on.</dd>
 							<dt>Functions</dt>
-							<dd>There are several functions on my site such as signup,
-								login and posting blog articles.</dd>
+							<dd>There are several functions on my site, such as signup,
+								login, posting, editing, and deleting blog articles.</dd>
 							<dt>Why choose Java language and does not use framework?</dt>
 							<dd>I have certifications in Java SE11 Developer
 								professional. So I show my Java development skills using the MVC
@@ -93,7 +99,7 @@
 							<dd>
 								There are detailed descriptions on my article pages. For
 								example, how to design login functions. Please confirm <a
-									href="articles/article.html">article pages</a>.
+									href="ArticleServlet?action=article">article pages</a>.
 							</dd>
 						</dl>
 					</section>
