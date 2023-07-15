@@ -22,6 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import com.mysql.cj.util.StringUtils;
+
 import dao.ArticlesDAO;
 import model.AdminAppend;
 import model.AdminData;
@@ -30,7 +32,7 @@ import model.ArticleData;
 import model.CreateArticle;
 
 @WebServlet("/AdminServlet")
-@MultipartConfig(maxFileSize = 2097152, maxRequestSize = 2097152, fileSizeThreshold = 2097152)
+@MultipartConfig(location = "/articles", maxFileSize = 2097152, maxRequestSize = 2097152, fileSizeThreshold = 2097152)
 public class AdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -95,13 +97,14 @@ public class AdminServlet extends HttpServlet {
 		//Set session time(Max 1 day)
 		HttpSession session = request.getSession();
 		session.setMaxInactiveInterval(SESSION_TIME);
-		
+
 		AdminData adminData = new AdminData();
 		AdminAppend adminAppend = new AdminAppend();
 
+		//Get edit process parameter
+		String editProcess = request.getParameter("editProcess");
 		//Get nick name
 		String nickName = request.getParameter("nickname");
-
 		//Get blog title
 		String blogTitile = request.getParameter("blogTitle");
 		//Get all image files
@@ -110,8 +113,8 @@ public class AdminServlet extends HttpServlet {
 			imgFileLists = adminAppend.images(imgFileLists, request);
 		} catch (Exception e) {
 			e.printStackTrace();
-			adminData.setErrMsg("Please each upload file with less than 2MB.");
-			session.setAttribute("errorMsg", adminData.getErrMsg());
+			adminData.setErrMsg("Please each upload jpg file with less than 2MB.");
+			session.setAttribute("message", adminData.getErrMsg());
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/admin.jsp");
 			dispatcher.forward(request, response);
 		}
@@ -131,7 +134,7 @@ public class AdminServlet extends HttpServlet {
 		AdminValidation adminValidation = new AdminValidation();
 		//For blog title
 		try {
-			blogTitile = adminValidation.blogTitle(blogTitile, adminData, nickName);
+			blogTitile = adminValidation.blogTitle(blogTitile, adminData, nickName, editProcess);
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
@@ -140,8 +143,7 @@ public class AdminServlet extends HttpServlet {
 		//For blog summary
 		blogSummary = adminValidation.blogSummary(blogSummary, descriptionLists, adminData);
 		//For all chapters
-		chapterLists = adminValidation.blogChapters(chapterLists, sectionLists, imgFileLists, descriptionLists,
-				adminData);
+		chapterLists = adminValidation.blogChapters(chapterLists, sectionLists, adminData);
 		//For all sections
 		sectionLists = adminValidation.blogSections(sectionLists, adminData);
 		//For all descriptions
@@ -153,9 +155,15 @@ public class AdminServlet extends HttpServlet {
 
 		if (validationCheckersLists.contains(false)) {
 			//Validation error
-			session.setAttribute("message", adminData.getErrMsg());
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/admin.jsp");
-			dispatcher.forward(request, response);
+			if (!StringUtils.isEmptyOrWhitespaceOnly(editProcess)) {
+				session.setAttribute("messageEdit", adminData.getErrMsg());
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/articleEditDelete.jsp");
+				dispatcher.forward(request, response);
+			} else {
+				session.setAttribute("message", adminData.getErrMsg());
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/admin.jsp");
+				dispatcher.forward(request, response);
+			}
 		} else {
 			//Set article items to ArticleData
 			ArticleData articleData = new ArticleData();
@@ -172,30 +180,52 @@ public class AdminServlet extends HttpServlet {
 				try {
 					imgFile.write(
 							getServletContext().getRealPath("/img/" + nickName + "/" + imgFile.getSubmittedFileName()));
+
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			});
 
-			//Make JSP content
+			//Make or Edit JSP content
 			CreateArticle createArticle = new CreateArticle();
-			String articleFileName = createArticle.makeFileName();
-			Path articlePath = Paths
-					.get(getServletContext().getRealPath("/articles/" + nickName + "/" + articleFileName));
-			createArticle.makeArticle(articlePath, articleData);
-
-			//Dispatch to admin.jsp
-			session.setAttribute("message", "Your article is issued.");
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/admin.jsp");
-			dispatcher.forward(request, response);
-
-			//Save JSP contens to DB
-			String strArticlePath = "/articles/" + nickName + "/" + articleFileName;
 			ArticlesDAO articlesDAO = new ArticlesDAO();
-			try {
-				articlesDAO.registerArticles(articleData, strArticlePath);
-			} catch (SQLException e) {
-				e.printStackTrace();
+			
+			if (!StringUtils.isEmptyOrWhitespaceOnly(editProcess)) {
+				//Edit JSP
+				String articleURL = request.getParameter("articlePath").replace(request.getContextPath().toString(), "");
+				Path articlePath = Paths
+						.get(getServletContext().getRealPath(articleURL));
+				createArticle.editArticle(articlePath, articleData);
+				
+				//Dispatch to articleEditDelete.jsp
+				session.setAttribute("messageEdit", "Edit process is done.");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/articleEditDelete.jsp");
+				dispatcher.forward(request, response);
+				
+				//Update JSP title
+				try {
+					articlesDAO.updateEditArticleTitle(nickName, blogTitile, articleURL);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			} else {
+				String articleFileName = createArticle.makeFileName();
+				Path articlePath = Paths
+						.get(getServletContext().getRealPath("/articles/" + nickName + "/" + articleFileName));
+				createArticle.makeArticle(articlePath, articleData);
+
+				//Dispatch to admin.jsp
+				session.setAttribute("message", "Your article is issued.");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/admin.jsp");
+				dispatcher.forward(request, response);
+
+				//Save JSP contens to DB
+				String strArticlePath = "/articles/" + nickName + "/" + articleFileName;
+				try {
+					articlesDAO.registerArticles(articleData, strArticlePath);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
