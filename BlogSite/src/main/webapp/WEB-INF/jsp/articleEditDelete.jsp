@@ -104,6 +104,54 @@
 				</tbody>
 			</table>
 		</div>
+		
+		<div class="row">
+				<div class="col-md-12">
+					<nav aria-label="Page navigation">
+						<ul class="pagination justify-content-center">
+							<c:choose>
+								<c:when test="${currentPage == 1}">
+									<li class="page-item disabled">
+										<a class="page-link" href="#">Previous</a>
+									</li>
+									<li class="page-item" name="currentPage">
+										<a class="page-link" href="AdminServlet?action=editdelete&nickName=${nickName}">
+										<c:out value="${currentPage}" /> / <c:out value="${paginationRange}" />
+										</a>
+									</li>
+								</c:when>
+								<c:when test="${currentPage != 1}">
+									<li class="page-item">
+										<a class="page-link" href="AdminServlet?action=editdelete&nickName=${nickName}&currentpage=${currentPage - 1}">Previous</a>
+									</li>
+									<li class="page-item" name="currentPage">
+										<a class="page-link" href="AdminServlet?action=editdelete&nickName=${nickName}">
+										<c:out value="${currentPage}" /> / <c:out value="${paginationRange}" />
+										</a>
+									</li>
+								</c:when>
+							</c:choose>
+							<c:choose>
+								<c:when test="${paginationRange == 1}">
+									<li class="page-item disabled">
+										<a class="page-link" href="#">Next</a>
+									</li>
+								</c:when>
+								<c:when test="${paginationRange != 1 and paginationRange != currentPage}">
+									<li class="page-item">
+										<a class="page-link" href="AdminServlet?action=editdelete&nickName=${nickName}&currentpage=${currentPage + 1}">Next</a>
+									</li>
+								</c:when>
+								<c:when test="${paginationRange != 1 and paginationRange == currentPage}">
+									<li class="page-item disabled">
+										<a class="page-link" href="#">Next</a>
+									</li>
+								</c:when>
+							</c:choose>
+						</ul>
+					</nav>
+				</div>
+			</div>
 		<!-- Edit-Delete -->
 	</main>
 
