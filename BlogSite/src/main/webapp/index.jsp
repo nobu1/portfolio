@@ -99,7 +99,7 @@
 							<dd>
 								There are detailed descriptions on my article pages. For
 								example, how to design login functions. Please confirm <a
-									href="ArticleServlet?action=article">article pages</a>.
+									href="ArticleServlet">article pages</a>.
 							</dd>
 						</dl>
 					</section>
