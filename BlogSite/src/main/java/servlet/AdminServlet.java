@@ -7,9 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.RequestDispatcher;
@@ -35,13 +33,17 @@ import model.CreateArticle;
 @MultipartConfig(location = "/articles", maxFileSize = 2097152, maxRequestSize = 2097152, fileSizeThreshold = 2097152)
 public class AdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final int RECORD_PER_PAGE = 5;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 
 		String action = request.getParameter("action");
-
+		String currentPage = request.getParameter("currentpage");
+		int totalRecordCount = 0;
+		int offset = 0;
+		
 		if (action == null) {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/admin.jsp");
 			dispatcher.forward(request, response);
@@ -49,21 +51,44 @@ public class AdminServlet extends HttpServlet {
 			session.invalidate();
 			response.sendRedirect("login.jsp");
 		} else if (action.equals("editdelete")) {
+			ArticlesDAO articlesDAO = new ArticlesDAO();
+			
 			//Get nick name
 			String nickName = request.getParameter("nickName");
-
-			//Get article data
-			ArticlesDAO articlesDAO = new ArticlesDAO();
-			Map<String, String> articles = new HashMap<>();
+			session.setAttribute("nickName", nickName);
+			
+			//Get total records
 			try {
-				articles = articlesDAO.getArticleList(nickName, articles);
+				totalRecordCount = articlesDAO.getArticleCountByNickName(nickName);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			//Set pagination range
+			int paginationRange = 1;
+			if (totalRecordCount % RECORD_PER_PAGE > 0) {
+				paginationRange = totalRecordCount / RECORD_PER_PAGE + 1;
+			} else {
+				paginationRange = totalRecordCount / RECORD_PER_PAGE;
+			} 
+			session.setAttribute("paginationRange", paginationRange);
+			
+			//Set current page
+			if (currentPage == null) {
+				currentPage = "1";				
+			}
+			session.setAttribute("currentPage", currentPage);
+			
+			//Set pagination offset
+			offset = (Integer.parseInt(currentPage) - 1) * RECORD_PER_PAGE;
+			
+			//Get articles per page
+			try {
+				session.setAttribute("articles", articlesDAO.getArticlesByNickName(offset, RECORD_PER_PAGE, nickName));
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 
 			//Dispatch articleEditDelete.jsp
-			session.setAttribute("nickName", nickName);
-			session.setAttribute("articles", articles);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/articleEditDelete.jsp");
 			dispatcher.forward(request, response);
 		} else if (action.equals("delete")) {
