@@ -14,7 +14,7 @@
    - Data Structure (Future topic) 
    - Graph algorithm (Future topic)
 4. IT Certifications  
-   I acquired several IT certifications as follows.  
+   - IBM Back-End Development Professional Certificate  
    - AWS Solutions Architect Professional
    - AWS Security
    - Certified Ethical Hacker
