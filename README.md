@@ -24,6 +24,7 @@
 ### Key words
 - Security Engineer
 - Backend Engineer
+- Python
 - Java
 - C++
 - CEH 
