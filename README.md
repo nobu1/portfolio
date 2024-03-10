@@ -3,7 +3,7 @@
 ### My Github has four categories.
 1. My CV using LaTex  
    The following link is my CV of PDF format.  
-  [Shinji Nobuhara CV](https://github.com/nobu1/portfolio/blob/main/CurriculumVitae/CV_main_ShinjiNobuhara.pdf)
+  [Shinji Nobuhara CV](https://github.com/nobu1/portfolio/blob/main/CurriculumVitae/CV_ShinjiNobuhara.pdf)
 2. My portfolio  
    I made a blog site which is an MVC model using Java.  
 3. Algorithms using C++  
