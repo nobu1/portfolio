@@ -1,9 +1,9 @@
 # Shinji's portfolio
 
 ### My Github has four categories.
-1. My CV using LaTex  
-   The following link is my CV of PDF format.  
-  [Shinji Nobuhara CV](https://github.com/nobu1/portfolio/blob/main/CurriculumVitae/CV_ShinjiNobuhara.pdf)
+1. My Resume using LaTex  
+   The following link is my Resume of PDF format.  
+  [Shinji Nobuhara Resume](https://github.com/nobu1/portfolio/blob/main/Resume/Resume_ShinjiNobuhara.pdf)
 2. My portfolio  
    I made a blog site which is an MVC model using Java.  
 3. Algorithms using C++  
