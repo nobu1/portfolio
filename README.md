@@ -3,7 +3,6 @@
 **Location:** Nagi-Cho, Katsuta-Gun, Okayama, Japan, 708-1301  
 **Phone:** +81-90-8990-6589  
 **Email:** shinjin2@illinois.edu  
-**GitHub Portfolio:** [github.com/nobu1/portfolio](https://github.com/nobu1/portfolio)
 
 ---
 
