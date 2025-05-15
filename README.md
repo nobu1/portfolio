@@ -33,7 +33,7 @@ Fukuoka, Japan | *March 2008*
 - Updated development security rules to align with the NIST Security Framework.  
 - Conducted vulnerability assessments using AppScan and Nessus Professional.
 
-**Programmer**  
+**Software Engineer**  
 *Staff Service Engineering* – Okayama, Japan  
 *July 2019 – February 2021*  
 - Developed a home-visit nursing system using VB.NET and Microsoft SQL Server, with a focus on back-end development.
@@ -43,7 +43,7 @@ Fukuoka, Japan | *March 2008*
 ## 🛠️ Technical Skills
 
 - **Languages:** Python, C/C++, Java, JavaScript, PHP, VB.NET, SQL  
-- **Frameworks & Tools:** Flask, Node.js, React, Bootstrap, Laravel, ZeroMQ, OpenMP  
+- **Frameworks & Tools:** Flask, Node.js, React, Bootstrap, Laravel, ZeroMQ, OpenMP, Cuda, OpenCL  
 - **Security Tools:** Microsoft Defender for Endpoint, Securonix, Carbon Black, CrowdStrike, Sentinel, Splunk, AppScan, Nessus  
 - **Databases:** Microsoft SQL Server  
 - **Operating Systems:** Windows, Linux
