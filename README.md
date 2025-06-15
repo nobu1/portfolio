@@ -1,9 +1,6 @@
 # Shinji Nobuhara
 
-**Location:** Nagi-Cho, Katsuta-Gun, Okayama, Japan, 708-1301  
-**Phone:** +81-90-8990-6589  
-**Email:** shinjin2@illinois.edu  
-**LinkeIn:** [www.linkedin.com/in/shinjinobuhara](https://www.linkedin.com/in/shinji-nobuhara/?locale=en_US)  
+**LinkedIn:** [www.linkedin.com/in/shinjinobuhara](https://www.linkedin.com/in/shinji-nobuhara/?locale=en_US)  
 
 ---
 
