@@ -13,7 +13,7 @@ Chicago, IL, USA | *Expected: August 2025*
 **Oregon State University**  
 *Bachelor of Science in Electrical Engineering and Computer Science*  
 Corvallis, OR, USA | *September 2023 – June 2025*  
-**GPA:** 3.94 / 4.00
+**GPA:** 3.97 / 4.00
 
 **Kyushu Institute of Technology**  
 *Master of Science in Biological Functions Engineering*  
