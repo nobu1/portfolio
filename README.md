@@ -8,7 +8,7 @@
 
 **University of Illinois Urbana-Champaign**  
 *Master of Science in Computer Science*  
-Chicago, IL, USA | *August 2025 - Present* 
+Chicago, IL, USA | *January 2026 - Present* 
 
 **Oregon State University**  
 *Bachelor of Science in Electrical Engineering and Computer Science*  
