@@ -38,7 +38,7 @@ Corvallis, OR, USA | *September 2023 – June 2025*
 
 - **Languages:** Python, C/C++, Java, JavaScript, PHP, VB.NET, SQL  
 - **Frameworks & Tools:** Flask, Node.js, React, Bootstrap, Laravel, ZeroMQ, OpenMP, Cuda, OpenCL, MPI
-- **Security Tools:** Microsoft Defender for Endpoint, Securonix, Carbon Black, CrowdStrike, Sentinel, Splunk, AppScan, Nessus  
+- **Security Tools:** Microsoft Defender for Endpoint, Securonix, Carbon Black, CrowdStrike, Sentinel, Splunk, AppScan, Nessus, Nmap, Gobuster, Burp, John the Ripper 
 - **Databases:** Microsoft SQL Server  
 - **Operating Systems:** Windows, Linux
 
