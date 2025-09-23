@@ -15,10 +15,6 @@ Chicago, IL, USA | *January 2026 - Present*
 Corvallis, OR, USA | *September 2023 – June 2025*  
 **GPA:** 3.96 / 4.00
 
-**Kyushu Institute of Technology**  
-*Master of Science in Biological Functions Engineering*  
-Fukuoka, Japan | *March 2008*
-
 ---
 
 ## 💼 Work Experience
@@ -49,6 +45,10 @@ Fukuoka, Japan | *March 2008*
 ---
 
 ## 🧪 Projects
+
+*Personal Project,* **Penetration Test Project**  
+- Construct attack and vulnerable virtual machines in VirtualBox, execute penetration tests using Nmap, Gobuster, Burp, and John the Ripper, and gain root user flag.  
+- GitHub: [Penetration Test](https://github.com/nobu1/PenetrationTestProject)
 
 *Student Project,* **Website Security Research Project** *, Oregon State University, Corvallis, OR*– *Apr. 2025 -Jun. 2025*  
 - Developed a deliberately vulnerable Flask web application to demonstrate common security flaws such as OWASP Top 10, then systematically applied security hardening techniques—including input validation, CSRF protection, and secure cookie settings—to mitigate these vulnerabilities.  
