@@ -60,13 +60,15 @@ Corvallis, OR, USA | *September 2023 – June 2025*
 - Developed a deliberately vulnerable Flask web application to demonstrate common security flaws such as OWASP Top 10, then systematically applied security hardening techniques—including input validation, CSRF protection, and secure cookie settings—to mitigate these vulnerabilities.  
 
 *Student Project,* **Microservice Architecture Project** *, Oregon State University, Corvallis, OR*– *Jan. 2025 - Mar. 2025*  
-- Designed and implemented a console application with a microservices architecture, leveraging Python and ZeroMQ to enable robust, asynchronous communication between services.  
+- Designed and implemented a microservice-based console application using Python and ZeroMQ.
+- Enabled reliable, asynchronous inter-service communication and improved system scalability and fault isolation.  
 - GitHub:  
   - [Restaurant Management Microservice](https://github.com/nobu1/restaurant_management_microservice)  
   - [Planning Management Service](https://github.com/nobu1/planning_management_service)
 
 *Student Project,* **Unix-like Shell Project** *, Oregon State University, Corvallis, OR* – *Jan. 2025 - Mar. 2025*  
-- Developed a Unix-like mini shell in C, implementing core features such as command parsing, process management, and input/output redirection.  
+- Developed a Unix-like mini shell in C, implementing command parsing, process creation, job control, and input/output redirection.
+- Strengthened understanding of operating systems, memory management, and process control.
 - GitHub: [Small Shell](https://github.com/nobu1/small_shell)
 
 ---
