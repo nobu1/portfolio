@@ -42,7 +42,7 @@ Corvallis, OR, USA | *September 2023 – June 2025*
 - **Programming Languages:** Python, C/C++, Java, JavaScript, PHP, VB.NET, SQL 
 - **Security & Monitoring Tools:** Microsoft Defender for Endpoint, Securonix, Carbon Black, CrowdStrike, Sentinel, Splunk
 - **Vulnerability & Penetration Testing:** AppScan, Nessus, Nmap, Burp, Wireshark, Metasploit  
-- **Frameworks & Technologies:** Flask, Node.js, React, Bootstrap, Laravel, ZeroMQ  
+- **Frameworks & Technologies:** PyTorch, Flask, Node.js, React, Bootstrap, Laravel, ZeroMQ  
 - **Parallel / System Computing:** OpenMP, CUDA, OpenCL, MPI  
 - **Databases:** Microsoft SQL Server, MySQL, SQLite  
 - **Operating Systems:** Windows, Linux  
@@ -51,6 +51,12 @@ Corvallis, OR, USA | *September 2023 – June 2025*
 
 ## 🧪 Projects
 
+*Personal Project,* **PyTorch Deep Learning Implementation**  
+- Implemented a variety of supervised learning algorithms and neural network models from scratch using PyTorch.  
+- Conducted experiments spanning regression, classification, and computer vision tasks.  
+- Organized code into modular and reusable notebooks for ease of exploration and learning.  
+- GitHub: [PyTorch Deep Learning](https://github.com/nobu1/PyTorch_Project)
+  
 *Personal Project,* **Penetration Test Project**  
 - Built vulnerable and attacker virtual machines using VirtualBox and conducted end-to-end penetration tests.
 - Performed reconnaissance and exploitation using Nmap, Burp Suite, Wireshark, and Metasploit, successfully escalating privileges and capturing root flags.
