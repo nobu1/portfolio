@@ -6,10 +6,6 @@
 
 ## 🎓 Education
 
-**University of Illinois Urbana-Champaign**  
-*Master of Science in Computer Science*  
-Chicago, IL, USA | *January 2026 - Present* 
-
 **Oregon State University**  
 *Bachelor of Science in Electrical Engineering and Computer Science*  
 Corvallis, OR, USA | *September 2023 – June 2025*  
