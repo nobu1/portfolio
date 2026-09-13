@@ -20,7 +20,7 @@ Corvallis, OR, USA | *September 2023 – June 2025*
 **GPA:** 3.96 / 4.00
 
 ## Certifications & Licenses
-- **AWS Certified Solutions Architect – Professional** (Valid until: August 2029)
+- **[AWS Certified Solutions Architect – Professional](https://github.com/nobu1/portfolio/blob/main/Certifications/AWS%20Certified%20Solutions%20Architect%20-%20Professional%20certificate_20260822.pdf)** (Valid until: August 2029)
 - **Third-Class Chief Electrical Engineer's License, Japan** (Issued: August 2026)  
   *※ National qualification required by Japanese law to oversee electrical safety operations in commercial buildings, industrial factories, and power generation plants.*
 
